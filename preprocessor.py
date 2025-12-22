@@ -1,6 +1,7 @@
 import cv2
 import numpy as np
 import pytesseract
+import os
 
 
 # Uncomment the below line please if Tesseract is not in PATH (Windows)
@@ -177,12 +178,18 @@ def is_valid_text_image(image_path):
 # MAIN INPUT + EXECUTION CODE
 # ================================
 if __name__ == "__main__":
-    image_path = r"C:\Users\pawan\Desktop\project_exp\kwrite4pass.jpeg"
+    folder_path = ''
+    folder_items = os.listdir(folder_path)
+    if folder_items is not None:
+        for item in folder_items:
+            if item.lower().endswith(('jpg', 'png', 'heic', 'jpeg')):
+                image_path = os.path.join(folder_path,item)
+                print(f"\n--- Analyzing image: {image_path} ---")
+                result = is_valid_text_image(image_path)
 
-    print(f"\n--- Analyzing image: {image_path} ---")
-    result = is_valid_text_image(image_path)
-
-    if result == 1:
-        print("\n✅ VALID TEXT IMAGE")
-    else:
-        print("\n❌ INVALID IMAGE")
+                if result == 1:
+                    print(f'{item}  is VALID')
+                else:
+                    print(f'{item} is INVALID')
+            else:
+                print(f'{item} Not valid image extention')        
